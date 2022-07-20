@@ -160,7 +160,7 @@ def attack_collect_item(item, item_slot, collected_list, not_collected_list):
         collected_list.append(item_name)
         not_collected_list.remove(item_name)
     else:
-        item.save(os.path.join(main_path, "data", "not_collected_items", item_slot, item_name))
+        item.save(os.path.join(main_path, "data", "collected_items", item_slot, item_name))
         collected_list.append(item_name)
 
     return collected_list, not_collected_list
