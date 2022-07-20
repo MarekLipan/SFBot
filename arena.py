@@ -171,15 +171,15 @@ def attack_and_store(dic_items):
     Attack the current shown opponent and add the items to the collected ones
     """
 
-    time.sleep(3)
+    time.sleep(random.uniform(1.1, 1.4))
     pyautogui.press("num9")
-    time.sleep(random.uniform(0.8, 1.2))
+    time.sleep(random.uniform(1.1, 1.4))
     pyautogui.press("enter")
-    time.sleep(random.uniform(0.8, 1.2))
+    time.sleep(random.uniform(1.1, 1.4))
     pyautogui.press("enter")
-    time.sleep(random.uniform(0.8, 1.2))
+    time.sleep(random.uniform(1.1, 1.4))
     pyautogui.press("enter")
-    time.sleep(random.uniform(1.0, 1.4))
+    time.sleep(random.uniform(1.1, 1.4))
 
     # scan now once again
     helmet = item_image_grab(0, 0, 0)
