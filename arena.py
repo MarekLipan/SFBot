@@ -17,12 +17,12 @@ main_path = "/Users/marek/Desktop/Projects/SFBot/"
 # =============================================================================
 # PARAMS
 # =============================================================================
-max_no_attacks = 20
+min_uncollected_items_to_attack = 3
+max_no_attacks = 100
 max_scans_per_search = 50
 max_no_searches = 10
 min_search_rank = 5000
 max_search_rank = 40000
-min_uncollected_items_to_attack = 5
 x, y = 1547, 197
 item_width = 100
 item_height = 145
