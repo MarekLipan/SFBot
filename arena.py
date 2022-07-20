@@ -17,7 +17,7 @@ main_path = "/Users/marek/Desktop/Projects/SFBot/"
 # =============================================================================
 # PARAMS
 # =============================================================================
-min_uncollected_items_to_attack = 3
+min_uncollected_items_to_attack = 2
 max_no_attacks = 100
 max_scans_per_search = 50
 max_no_searches = 10
@@ -290,6 +290,30 @@ def search(dic_items):
     return dic_items
 
 
+def relog():
+    """
+    Relogs character after some time of wait
+    """
+    # log out
+    pyautogui.moveTo((2350, 155), duration=0.6)
+    pyautogui.click(button="left")
+    time.sleep(random.uniform(0.3, 0.6))
+    pyautogui.click(button="left")
+    pyautogui.moveTo((1800, 1110), duration=0.6)
+    pyautogui.click(button="left")
+    # wait
+    time.sleep(random.uniform(15, 30))
+    # log in
+    pyautogui.moveTo((1600, 700), duration=0.6)
+    pyautogui.click(button="left")
+    time.sleep(random.uniform(0.3, 0.6))
+    pyautogui.moveTo((350, 1150), duration=0.6)
+    pyautogui.click(button="left")
+    time.sleep(random.uniform(0.3, 0.6))
+
+    return
+
+
 # =============================================================================
 # START
 # =============================================================================
@@ -301,6 +325,9 @@ start_time = 0
 while a < max_no_attacks:
     print("Attack number: {}".format(a))
     a += 1
+    # relog after every 5-th attack
+    if (a % 5) == 0:
+        relog()
     dic_items = search(dic_items)
     while time.time() - start_time <= 605:
         time.sleep(5)
