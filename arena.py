@@ -17,12 +17,14 @@ main_path = "/Users/marek/Desktop/Projects/SFBot/"
 # =============================================================================
 # PARAMS
 # =============================================================================
-min_uncollected_items_to_attack = 2
+mode = "holy_grail"  # mode either "classic" to fill the album by visual,or "holy_grail" when you have holy grail
+attack = False  # for holy grail mode, if to find and attack or only find the target
+min_uncollected_items_to_attack = 1
 max_no_attacks = 100
 max_scans_per_search = 50
-max_no_searches = 10
-min_search_rank = 5000
-max_search_rank = 40000
+max_no_searches = 20
+min_search_rank = 2000
+max_search_rank = 4500
 x, y = 1547, 197
 item_width = 100
 item_height = 145
@@ -166,7 +168,7 @@ def attack_collect_item(item, item_slot, collected_list, not_collected_list):
     return collected_list, not_collected_list
 
 
-def attack_and_store(dic_items):
+def attack_and_store(mode, dic_items=None):
     """
     Attack the current shown opponent and add the items to the collected ones
     """
@@ -181,41 +183,42 @@ def attack_and_store(dic_items):
     pyautogui.press("enter")
     time.sleep(random.uniform(1.1, 1.4))
 
-    # scan now once again
-    helmet = item_image_grab(0, 0, 0)
-    dic_items["collected_helmet"], dic_items["not_collected_helmet"] = attack_collect_item(helmet, "helmet", dic_items["collected_helmet"], dic_items["not_collected_helmet"])
+    if mode=="classic":
+        # scan now once again
+        helmet = item_image_grab(0, 0, 0)
+        dic_items["collected_helmet"], dic_items["not_collected_helmet"] = attack_collect_item(helmet, "helmet", dic_items["collected_helmet"], dic_items["not_collected_helmet"])
 
-    chest = item_image_grab(1, 0, 0)
-    dic_items["collected_chest"], dic_items["not_collected_chest"] = attack_collect_item(chest, "chest", dic_items["collected_chest"], dic_items["not_collected_chest"])
+        chest = item_image_grab(1, 0, 0)
+        dic_items["collected_chest"], dic_items["not_collected_chest"] = attack_collect_item(chest, "chest", dic_items["collected_chest"], dic_items["not_collected_chest"])
 
-    gloves = item_image_grab(2, 0, 0)
-    dic_items["collected_gloves"], dic_items["not_collected_gloves"] = attack_collect_item(gloves, "gloves", dic_items["collected_gloves"], dic_items["not_collected_gloves"])
+        gloves = item_image_grab(2, 0, 0)
+        dic_items["collected_gloves"], dic_items["not_collected_gloves"] = attack_collect_item(gloves, "gloves", dic_items["collected_gloves"], dic_items["not_collected_gloves"])
 
-    boots = item_image_grab(3, 0, 0)
-    dic_items["collected_boots"], dic_items["not_collected_boots"] = attack_collect_item(boots, "boots", dic_items["collected_boots"], dic_items["not_collected_boots"])
+        boots = item_image_grab(3, 0, 0)
+        dic_items["collected_boots"], dic_items["not_collected_boots"] = attack_collect_item(boots, "boots", dic_items["collected_boots"], dic_items["not_collected_boots"])
 
-    weapon_1 = item_image_grab(3, 1, 0)
-    dic_items["collected_weapon"], dic_items["not_collected_weapon"] = attack_collect_item(weapon_1, "weapon", dic_items["collected_weapon"], dic_items["not_collected_weapon"])
+        weapon_1 = item_image_grab(3, 1, 0)
+        dic_items["collected_weapon"], dic_items["not_collected_weapon"] = attack_collect_item(weapon_1, "weapon", dic_items["collected_weapon"], dic_items["not_collected_weapon"])
 
-    weapon_2 = item_image_grab(3, 1, 1)
-    dic_items["collected_weapon"], dic_items["not_collected_weapon"] = attack_collect_item(weapon_2, "weapon", dic_items["collected_weapon"], dic_items["not_collected_weapon"])
+        weapon_2 = item_image_grab(3, 1, 1)
+        dic_items["collected_weapon"], dic_items["not_collected_weapon"] = attack_collect_item(weapon_2, "weapon", dic_items["collected_weapon"], dic_items["not_collected_weapon"])
 
-    necklace = item_image_grab(0, 2, 1)
-    dic_items["collected_necklace"], dic_items["not_collected_necklace"] = attack_collect_item(necklace, "necklace", dic_items["collected_necklace"], dic_items["not_collected_necklace"])
+        necklace = item_image_grab(0, 2, 1)
+        dic_items["collected_necklace"], dic_items["not_collected_necklace"] = attack_collect_item(necklace, "necklace", dic_items["collected_necklace"], dic_items["not_collected_necklace"])
 
-    belt = item_image_grab(1, 2, 1)
-    dic_items["collected_belt"], dic_items["not_collected_belt"] = attack_collect_item(belt, "belt", dic_items["collected_belt"], dic_items["not_collected_belt"])
+        belt = item_image_grab(1, 2, 1)
+        dic_items["collected_belt"], dic_items["not_collected_belt"] = attack_collect_item(belt, "belt", dic_items["collected_belt"], dic_items["not_collected_belt"])
 
-    ring = item_image_grab(2, 2, 1)
-    dic_items["collected_ring"], dic_items["not_collected_ring"] = attack_collect_item(ring, "ring", dic_items["collected_ring"], dic_items["not_collected_ring"])
+        ring = item_image_grab(2, 2, 1)
+        dic_items["collected_ring"], dic_items["not_collected_ring"] = attack_collect_item(ring, "ring", dic_items["collected_ring"], dic_items["not_collected_ring"])
 
-    talisman = item_image_grab(3, 2, 1)
-    dic_items["collected_talisman"], dic_items["not_collected_talisman"] = attack_collect_item(talisman, "talisman", dic_items["collected_talisman"], dic_items["not_collected_talisman"])
+        talisman = item_image_grab(3, 2, 1)
+        dic_items["collected_talisman"], dic_items["not_collected_talisman"] = attack_collect_item(talisman, "talisman", dic_items["collected_talisman"], dic_items["not_collected_talisman"])
 
     return dic_items
 
 
-def search(dic_items):
+def search(mode, dic_items=None):
     """
     Searches until finds a good target
     """
@@ -248,44 +251,71 @@ def search(dic_items):
             pyautogui.press("down")
 
             # make sure everything is refreshed
-            time.sleep(random.uniform(0.08, 0.12))
+            time.sleep(random.uniform(0.22, 0.32))
 
             uncollected_items = 0
 
             # scanning
             helmet = item_image_grab(0, 0, 0)
-            uncollected_items, dic_items["not_collected_helmet"] = check_collected_item(helmet, "helmet", uncollected_items, dic_items["collected_helmet"], dic_items["not_collected_helmet"])
-
             chest = item_image_grab(1, 0, 0)
-            uncollected_items, dic_items["not_collected_chest"] = check_collected_item(chest, "chest", uncollected_items, dic_items["collected_chest"], dic_items["not_collected_chest"])
-
             gloves = item_image_grab(2, 0, 0)
-            uncollected_items, dic_items["not_collected_gloves"] = check_collected_item(gloves, "gloves", uncollected_items, dic_items["collected_gloves"], dic_items["not_collected_gloves"])
-
             boots = item_image_grab(3, 0, 0)
-            uncollected_items, dic_items["not_collected_boots"] = check_collected_item(boots, "boots", uncollected_items, dic_items["collected_boots"], dic_items["not_collected_boots"])
-
             weapon_1 = item_image_grab(3, 1, 0)
-            uncollected_items, dic_items["not_collected_weapon"] = check_collected_item(weapon_1, "weapon", uncollected_items, dic_items["collected_weapon"], dic_items["not_collected_weapon"])
-
             weapon_2 = item_image_grab(3, 1, 1)
-            uncollected_items, dic_items["not_collected_weapon"] = check_collected_item(weapon_2, "weapon", uncollected_items, dic_items["collected_weapon"], dic_items["not_collected_weapon"])
-
             necklace = item_image_grab(0, 2, 1)
-            uncollected_items, dic_items["not_collected_necklace"] = check_collected_item(necklace, "necklace", uncollected_items, dic_items["collected_necklace"], dic_items["not_collected_necklace"])
-
             belt = item_image_grab(1, 2, 1)
-            uncollected_items, dic_items["not_collected_belt"] = check_collected_item(belt, "belt", uncollected_items, dic_items["collected_belt"], dic_items["not_collected_belt"])
-
             ring = item_image_grab(2, 2, 1)
-            uncollected_items, dic_items["not_collected_ring"] = check_collected_item(ring, "ring", uncollected_items, dic_items["collected_ring"], dic_items["not_collected_ring"])
-
             talisman = item_image_grab(3, 2, 1)
-            uncollected_items, dic_items["not_collected_talisman"] = check_collected_item(talisman, "talisman", uncollected_items, dic_items["collected_talisman"], dic_items["not_collected_talisman"])
 
-            print("Uncollected items: {}".format(uncollected_items))
-            if uncollected_items >= min_uncollected_items_to_attack:
-                return dic_items
+            if mode=="classic":
+                uncollected_items, dic_items["not_collected_helmet"] = check_collected_item(helmet, "helmet", uncollected_items, dic_items["collected_helmet"], dic_items["not_collected_helmet"])
+                uncollected_items, dic_items["not_collected_chest"] = check_collected_item(chest, "chest", uncollected_items, dic_items["collected_chest"], dic_items["not_collected_chest"])
+                uncollected_items, dic_items["not_collected_gloves"] = check_collected_item(gloves, "gloves", uncollected_items, dic_items["collected_gloves"], dic_items["not_collected_gloves"])
+                uncollected_items, dic_items["not_collected_boots"] = check_collected_item(boots, "boots", uncollected_items, dic_items["collected_boots"], dic_items["not_collected_boots"])
+                uncollected_items, dic_items["not_collected_weapon"] = check_collected_item(weapon_1, "weapon", uncollected_items, dic_items["collected_weapon"], dic_items["not_collected_weapon"])
+                uncollected_items, dic_items["not_collected_weapon"] = check_collected_item(weapon_2, "weapon", uncollected_items, dic_items["collected_weapon"], dic_items["not_collected_weapon"])
+                uncollected_items, dic_items["not_collected_necklace"] = check_collected_item(necklace, "necklace", uncollected_items, dic_items["collected_necklace"], dic_items["not_collected_necklace"])
+                uncollected_items, dic_items["not_collected_belt"] = check_collected_item(belt, "belt", uncollected_items, dic_items["collected_belt"], dic_items["not_collected_belt"])
+                uncollected_items, dic_items["not_collected_ring"] = check_collected_item(ring, "ring", uncollected_items, dic_items["collected_ring"], dic_items["not_collected_ring"])
+                uncollected_items, dic_items["not_collected_talisman"] = check_collected_item(talisman, "talisman", uncollected_items, dic_items["collected_talisman"], dic_items["not_collected_talisman"])
+
+                print("Uncollected items: {}".format(uncollected_items))
+                if uncollected_items >= min_uncollected_items_to_attack:
+                    return dic_items
+            elif mode=="holy_grail":
+                # take a second picture
+                time.sleep(0.5)
+                helmet_b = item_image_grab(0, 0, 0)
+                chest_b = item_image_grab(1, 0, 0)
+                gloves_b = item_image_grab(2, 0, 0)
+                boots_b = item_image_grab(3, 0, 0)
+                weapon_1_b = item_image_grab(3, 1, 0)
+                weapon_2_b = item_image_grab(3, 1, 1)
+                necklace_b = item_image_grab(0, 2, 1)
+                belt_b = item_image_grab(1, 2, 1)
+                ring_b = item_image_grab(2, 2, 1)
+                talisman_b = item_image_grab(3, 2, 1)
+
+                # compare and see if there is any moving item - trigger for attack
+                moving_item = (
+                        (helmet != helmet_b) +
+                        (chest != chest_b) +
+                        (gloves != gloves_b) +
+                        (boots != boots_b) +
+                        (weapon_1 != weapon_1_b) +
+                        (weapon_2 != weapon_2_b) +
+                        (necklace != necklace_b) +
+                        (belt != belt_b) +
+                        (ring != ring_b) +
+                        (talisman != talisman_b)
+                )
+
+                print("Found a target with {} new items".format(moving_item))
+
+                if moving_item > 0:
+                    print("Found a target with {} new items".format(moving_item))
+                    return dic_items
+
 
     return dic_items
 
@@ -317,47 +347,71 @@ def relog():
 # =============================================================================
 # START
 # =============================================================================
-print("STARTING NEW RUN")
-time.sleep(3)
-# wait for switch in the game window and click to search bar
-a = 0
-start_time = 0
-while a < max_no_attacks:
-    print("Attack number: {}".format(a))
-    a += 1
-    # relog after every 5-th attack
-    if (a % 5) == 0:
-        relog()
-    dic_items = search(dic_items)
-    while time.time() - start_time <= 605:
-        time.sleep(5)
-    dic_items = attack_and_store(dic_items)
-    time.sleep(1)
-    start_time = time.time()
+if mode == "classic":
+    print("STARTING NEW RUN")
+    time.sleep(3)
+    # wait for switch in the game window and click to search bar
+    a = 0
+    start_time = 0
+    while a < max_no_attacks:
+        print("Attack number: {}".format(a))
+        a += 1
+        # relog after every 5-th attack
+        if (a % 5) == 0:
+            relog()
+        dic_items = search(mode, dic_items)
+        while time.time() - start_time <= 605:
+            time.sleep(5)
+        dic_items = attack_and_store(mode, dic_items)
+        time.sleep(1)
+        start_time = time.time()
 
+    print("DONE")
+    print("Total unique HELMET: {}".format(len(not_collected_helmet)))
+    print("Total unique CHEST: {}".format(len(not_collected_chest)))
+    print("Total unique GLOVES: {}".format(len(not_collected_gloves)))
+    print("Total unique BOOTS: {}".format(len(not_collected_boots)))
+    print("Total unique WEAPON: {}".format(len(not_collected_weapon)))
+    print("Total unique NECKLACE: {}".format(len(not_collected_necklace)))
+    print("Total unique BELT: {}".format(len(not_collected_belt)))
+    print("Total unique RING: {}".format(len(not_collected_ring)))
+    print("Total unique TALISMAN: {}".format(len(not_collected_talisman)))
 
-print("DONE")
-print("Total unique HELMET: {}".format(len(not_collected_helmet)))
-print("Total unique CHEST: {}".format(len(not_collected_chest)))
-print("Total unique GLOVES: {}".format(len(not_collected_gloves)))
-print("Total unique BOOTS: {}".format(len(not_collected_boots)))
-print("Total unique WEAPON: {}".format(len(not_collected_weapon)))
-print("Total unique NECKLACE: {}".format(len(not_collected_necklace)))
-print("Total unique BELT: {}".format(len(not_collected_belt)))
-print("Total unique RING: {}".format(len(not_collected_ring)))
-print("Total unique TALISMAN: {}".format(len(not_collected_talisman)))
+    print("Total unique ALL: {}".format(
+        len(not_collected_helmet) +
+        len(not_collected_chest) +
+        len(not_collected_gloves) +
+        len(not_collected_boots) +
+        len(not_collected_weapon) +
+        len(not_collected_necklace) +
+        len(not_collected_belt) +
+        len(not_collected_ring) +
+        len(not_collected_talisman)
+    ))
+elif mode == "holy_grail":
+    print("STARTING NEW RUN")
+    time.sleep(3)
+    # wait for switch in the game window and click to search bar
+    a = 0
+    start_time = 0
+    while a < max_no_attacks:
+        print("Attack number: {}".format(a))
+        a += 1
+        # relog after every 5-th attack
+        if (a % 5) == 0:
+            relog()
+        dic_items = search(mode)
+        while time.time() - start_time <= 605:
+            time.sleep(5)
+        if attack:
+            dic_items = attack_and_store(mode)
+        else:
+            print("Found target")
+            break
+        time.sleep(1)
+        start_time = time.time()
 
-print("Total unique ALL: {}".format(
-    len(not_collected_helmet) +
-    len(not_collected_chest) +
-    len(not_collected_gloves) +
-    len(not_collected_boots) +
-    len(not_collected_weapon) +
-    len(not_collected_necklace) +
-    len(not_collected_belt) +
-    len(not_collected_ring) +
-    len(not_collected_talisman)
-))
+    print("DONE")
 
 # =============================================================================
 # END OF FILE
